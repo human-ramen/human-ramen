@@ -36,6 +36,8 @@ Tests shows something like predefined fight.
 # HumanRamen.UI
 Barebone Visual Novel / JRPG style ui system. Has big black rectangle, can show letters and lights up some choices.
 
+![beautiful ui](.github/uishowcase.png)
+
 # HumanRamen.Entities
 Musthave systems for showing some sprites and taken some keyboard presses.
 
