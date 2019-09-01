@@ -1,0 +1,7 @@
+language: csharp
+mono: latest
+dotnet: 2.1.502
+script:
+  - dotnet restore HumanRamen.Battle
+  - dotnet restore HumanRamen.Battle.Tests
+  - dotnet test HumanRamen.Battle.Tests
