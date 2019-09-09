@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using HumanRamen.Entities.Components;
 using HumanRamen.Essentials;
-using HumanRamen.Scenario;
 using HumanRamen.UI;
+using HumanRamen.Scene;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
@@ -11,10 +11,9 @@ using MonoGame.Extended.Entities.Systems;
 using NLua;
 using static HumanRamen.UI.Choices;
 
-namespace InfinityDialogue.Systems
+namespace HumanRamen.Entities.Systems
 {
-    // TODO: IGameContent
-    public interface IGameContent { }
+    public interface IScenarioContent { }
 
     public class ScenarioSystem : UpdateSystem, ICommandHandler
     {
@@ -33,7 +32,7 @@ namespace InfinityDialogue.Systems
         private readonly UISystem _ui;
         private readonly Commander _commander;
 
-        private readonly string _startScript = "Lua/test_scenario.lua";
+        private readonly string _startScript = "./Lua/start.lua";
 
         private State _state;
         private Entity _scenarioEntity;
@@ -43,7 +42,7 @@ namespace InfinityDialogue.Systems
 
         private SpriteComponent _backgroundSprite;
 
-        private Characters _characters;
+        // private Characters _characters;
         private Dictionary<string, Entity> _characterEntities = new Dictionary<string, Entity>();
         private Dictionary<string, SpriteComponent> _characterSprites = new Dictionary<string, SpriteComponent>();
 
@@ -88,10 +87,11 @@ namespace InfinityDialogue.Systems
 
                 _characterEntities[name] = world.CreateEntity();
 
-                var spriteComponent = new SpriteComponent(_content.GetType().GetProperty(spritePath).GetValue(_content) as Texture2D);
-                // TODO: calculate position according to attributes
-                // spriteComponent.Position = new Rectangle(150, 30, _content.ChrKaren.Width / 2, _content.ChrKaren.Height / 2);
-                // spriteComponent.Depth = 0.0f;
+				var tex = _content.GetType().GetProperty(spritePath).GetValue(_content) as Texture2D;
+                var spriteComponent =
+					 new SpriteComponent(tex);
+                spriteComponent.Position = new Rectangle(150, 30, tex.Width / 2, tex.Height / 2);
+                spriteComponent.Depth = 0.0f;
 
                 _characterSprites.Add(name, spriteComponent);
                 _characterEntities[name].Attach(spriteComponent);

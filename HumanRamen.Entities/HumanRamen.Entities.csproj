@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HumanRamen.Essentials\HumanRamen.Essentials.csproj" />
     <ProjectReference Include="..\HumanRamen.UI\HumanRamen.UI.csproj" />
-    <ProjectReference Include="..\HumanRamen.Scenario\HumanRamen.Scenario.csproj" />
+    <ProjectReference Include="..\HumanRamen.Scene\HumanRamen.Scene.csproj" />
   </ItemGroup>
 
 </Project>

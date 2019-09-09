@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HumanRamen.Scenario
+namespace HumanRamen.Scene
 {
     public class Scenario
     {
