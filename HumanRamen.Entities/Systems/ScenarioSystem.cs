@@ -106,6 +106,13 @@ namespace HumanRamen.Entities.Systems
 
         public override void Update(GameTime gameTime)
         {
+			if (!_currentNodeInited && _state == State.Battle) {
+
+				_l.Debug("We are in battle stance");
+
+				_currentNodeInited = true;
+			}
+
             if (!_currentNodeInited && _state == State.Dialog)
             {
                 _ui.UpdateDialog(new Dialog(_currentNode.DialogueName, _currentNode.DialogueText));
@@ -153,9 +160,15 @@ namespace HumanRamen.Entities.Systems
 
                 _currentNode = _currentNode.Responses[command];
 
-                _state = State.Dialog;
-                _currentNodeInited = false;
-                return;
+				if (_currentNode.Type == Scenario.Node.NodeType.Dialog) {
+					_state = State.Dialog;
+					_currentNodeInited = false;
+					return;
+				} else if (_currentNode.Type == Scenario.Node.NodeType.Battle) {
+					_state = State.Battle;
+					_currentNodeInited = false;
+					return;
+				}
             }
         }
     }

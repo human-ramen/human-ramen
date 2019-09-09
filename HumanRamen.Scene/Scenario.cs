@@ -8,6 +8,12 @@ namespace HumanRamen.Scene
 
         public class Node
         {
+			public enum NodeType {
+				Dialog,
+				Battle,
+			}
+
+			public NodeType Type {get; set;} = NodeType.Dialog;
             public string DialogueName { get; set; }
             public string DialogueText { get; set; }
             public Dictionary<string, Node> Responses { get; set; }
@@ -38,6 +44,15 @@ namespace HumanRamen.Scene
 
             return node;
         }
+
+		public Node CreateBattle() {
+			var node = new Node();
+			node.Type = Node.NodeType.Battle;
+
+            if (Start == null) Start = node;
+
+			return node;
+		}
     }
 
 }
