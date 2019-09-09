@@ -14,6 +14,7 @@ namespace HumanRamen.Battle.Systems
     public class TurnSystem : EntityUpdateSystem
     {
         private Logger _l = new Logger("TurnSystem");
+		private readonly Commander _commander;
 
         private Entity _entity = null;
         private TurnComponent _turn = null;
@@ -21,8 +22,9 @@ namespace HumanRamen.Battle.Systems
         private ComponentMapper<TurnComponent> _turnMapper;
         private ComponentMapper<TurnEndComponent> _turnEndMapper;
 
-        public TurnSystem() : base(Aspect.One(typeof(TurnComponent)))
+        public TurnSystem(Commander commander) : base(Aspect.One(typeof(TurnComponent)))
         {
+			_commander = commander;
         }
 
         public override void Initialize(IComponentMapperService mapperService)
@@ -73,11 +75,13 @@ namespace HumanRamen.Battle.Systems
             if (_turn.State == Turn.Ai)
             {
                 _l.Info("Pass turn to Player");
+				_commander.Command("Turn", "Player");
                 _turn.State = Turn.Player;
             }
             else if (_turn.State == Turn.Player)
             {
                 _l.Info("Pass turn to AI");
+				_commander.Command("Turn", "AI");
                 _turn.State = Turn.Ai;
             }
             else

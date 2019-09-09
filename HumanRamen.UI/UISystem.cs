@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static HumanRamen.UI.Choices;
 
-
 namespace HumanRamen.UI
 {
     public class UISystem : ICommandHandler
@@ -37,6 +36,8 @@ namespace HumanRamen.UI
         private List<Choice> _currentChoices;
         private int _currentSelected;
 
+		private bool isLocked;
+
         public UISystem(SpriteBatch spriteBatch, IGameContent content, Commander commander)
         {
             _palette = new Palette(spriteBatch.GraphicsDevice);
@@ -45,6 +46,7 @@ namespace HumanRamen.UI
             _commander = commander;
 
             _commander.RegisterHandler("Control", this);
+            _commander.RegisterHandler("PlayerInput", this);
         }
 
         public void Draw(GameTime delta)
@@ -59,6 +61,16 @@ namespace HumanRamen.UI
 
         public void HandleCommand(string topic, string command)
         {
+			if (topic == "PlayerInput" && command == "Unlock") {
+				isLocked = false;
+			}
+
+			if (isLocked) {return;}
+
+			if (topic == "PlayerInput" && command == "Lock") {
+				isLocked = true;
+			}
+
             if (_state == state.Dialog && _isDialogAnimationDone
                 && topic == "Control" && command == "Enter")
             {
@@ -176,7 +188,11 @@ namespace HumanRamen.UI
 
                 Color color;
 
-                if (count != _currentSelected)
+				if (isLocked)
+				{
+					color = Color.Gray;
+
+				} else if (count != _currentSelected)
                 {
                     color = Color.White;
                 }
