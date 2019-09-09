@@ -32,7 +32,8 @@ namespace HumanRamen.Entities.Systems
             _kbdmap = new Dictionary<Keys, string>();
             foreach (var row in raw)
             {
-                _kbdmap.Add(Enum.Parse<Keys>(row.Key.ToString()), row.Value.ToString());
+				
+                _kbdmap.Add((Keys) Enum.Parse(typeof(Keys), row.Key.ToString()), row.Value.ToString());
             }
 
             lua.Dispose();
